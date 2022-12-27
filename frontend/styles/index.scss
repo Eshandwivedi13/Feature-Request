@@ -1,0 +1,204 @@
+// @font-face {
+//   font-family: SinkinSans;
+//   src: url("SinkinSans.otf") format("opentype");
+// }
+
+* {
+  font-family: "Poppins";
+}
+
+#nprogress .bar {
+  height: 3px;
+}
+
+#nprogress .spinner-icon {
+  width: 25px;
+  height: 25px;
+  border: solid 3px transparent;
+}
+
+.body {
+  margin: 0;
+}
+
+a {
+  color: #000;
+
+  &:hover {
+    color: #161616;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  // a:hover{
+  //   color: #161616;
+  //   text-decoration: none;
+  //   cursor: pointer;
+  // }
+}
+// .btn-danger {
+//   // background-image: linear-gradient(
+//   //   90deg,
+//   //   #dc3545,
+//   //   #f1bf6d,
+//   //   #fdcb7b,
+//   //   #fdcb7b,
+//   //   #f1bf6d,
+//   //   #dc3545
+//   // );
+// }
+.btn-primary {
+  // background-color: #fdcb7b;
+  background-image: linear-gradient(
+    90deg,
+    #fcc771,
+    #f1bf6d,
+    #fdcb7b,
+    #fdcb7b,
+    #f1bf6d,
+    #fcc771
+  );
+
+  color: #000;
+  border: #fdcb7b; // transparent bhi ho sakta hai kaam kar rha
+  transition: background-position 0.3s ease, box-shadow 0.2s ease-in-out;
+  background-position: 100%;
+  background-size: 200%;
+  background-color: transparent !important;
+
+  &:hover {
+    background-position: 150%;
+    background-color: #fdcb7b;
+    color: #000 !important;
+    cursor: pointer;
+    box-shadow: 2px 5px 7px 1px #e3b66ea4;
+  }
+
+  &:focus,
+  &:active {
+    // outline: none !important;
+    color: #000 !important;
+
+    box-shadow: none !important;
+    background-color: #ffeac7 !important;
+    // color: #000 !important;
+    cursor: pointer;
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 700px;
+    // height: 500px;
+    margin: 1.75rem auto;
+  }
+  .modal-dialog-centered {
+    min-height: calc(100% - 3.5rem);
+  }
+}
+
+.input-big {
+  height: 60px;
+  padding: 0.475rem 1.5rem;
+  border: transparent;
+  background-color: #f0f2f5;
+
+  &:focus {
+    border: transparent;
+    background-color: #f0f2f5;
+    box-shadow: none;
+  }
+}
+.button-height {
+  height: 60px;
+
+  // &:hover {
+  //   box-shadow: 1px 3px 8px 1px rgb(229 227 218);
+  // }
+}
+.card .input {
+  height: 48px;
+}
+
+//media heading pe form control yaani jab edit click karo tab bg change
+.media-heading .form-control {
+  border: transparent;
+  background-color: #f0f2f5;
+  padding: 0.75rem 1.1rem;
+  &:focus {
+    border: transparent;
+    background-color: #f0f2f5;
+    box-shadow: none;
+  }
+}
+
+input .form-control {
+  background-color: #f0f2f5;
+  &:focus {
+    border: transparent;
+    background-color: #f0f2f5;
+    box-shadow: none;
+  }
+}
+
+//ADD comment
+.form-group .form-control {
+  border: transparent;
+  padding: 0.45rem 1rem;
+  // height: 45px;
+
+  background-color: #f0f2f5;
+  &:focus {
+    border: transparent;
+    background-color: #f0f2f5;
+    box-shadow: none;
+  }
+}
+
+.card .form-control:disabled
+// .form-control[readonly]
+{
+  background-color: #dfdfdf;
+}
+textarea {
+  background-color: #f0f2f5;
+  border: transparent;
+  padding: 0.7rem;
+  border-radius: 0.25rem;
+  resize: none;
+  &:focus {
+    outline: none;
+  }
+}
+// .form-control {
+//   background-color: #f0f2f5;
+//   border: 1px solid #f0f2f5;
+//   color: #343434;
+//   // transition: none;
+// }
+
+.dropdown-item.active {
+  background-color: #e9ecef8a !important;
+}
+
+.manual-card {
+  box-shadow: 5px 5px 5px 5px #f5f5f5;
+  border: 2px solid #f3f2f2;
+  border-radius: 5px;
+}
+
+// for alert
+.custom-alert {
+  background-color: #fff;
+  color: #ff5f66;
+  box-shadow: 0 8px 16px 0 rgb(255 95 102 / 15%);
+  border: none;
+  border-left: 4px solid #ff5f66;
+  padding: 1.25rem;
+  border-radius: 4px;
+  font-size: 14px !important;
+}
+
+// .custom-feedback {
+//   margin-top: 0.25rem;
+//   font-size: 0.61em !important;
+// }
