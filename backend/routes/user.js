@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { getUser, editAvatar, updateUser } = require("../controllers/user");
+const {
+  getUser,
+  editAvatar,
+  updateUser,
+  deleteUser,
+} = require("../controllers/user");
 const multer = require("multer");
 const shortId = require("shortid");
-const { requireSignin } = require("../controllers/auth");
+const { requireSignin, canUpdateDeleteUser } = require("../controllers/auth");
 const { userUpdateValidator, runValidation } = require("../validators/auth");
 
 //multer
@@ -42,13 +47,26 @@ function multerUpload(req, res, next) {
 }
 
 router.get("/profile/:username", getUser);
-router.post("/user/avatar", requireSignin, multerUpload, editAvatar);
+router.post(
+  "/user/avatar",
+  requireSignin,
+  // canUpdateDeleteUser,
+  multerUpload,
+  editAvatar
+);
 router.patch(
   "/profile/:id",
   requireSignin,
+  // canUpdateDeleteUser,
   userUpdateValidator,
   runValidation,
   updateUser
+);
+router.delete(
+  "/profile/:username",
+  requireSignin,
+  canUpdateDeleteUser,
+  deleteUser
 );
 // router.get("/user/:username", getUser);
 

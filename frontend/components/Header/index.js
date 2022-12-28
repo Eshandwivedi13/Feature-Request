@@ -62,10 +62,10 @@ const Header = ({ singlePage, slug }) => {
       );
     } else if (router.asPath === `/feature/${slug}`) {
       return (
-        <React.Fragment>
+        <div>
           <h1 className="d-flex align-items-center mb-3">
             {/* <FaYoutube color="red" />{" "} */}
-            <span className="" style={{ overflowWrap: "anywhere" }}>
+            <span className="wrap-page" style={{ overflowWrap: "anywhere" }}>
               {singlePage.title}
             </span>
           </h1>
@@ -77,7 +77,7 @@ const Header = ({ singlePage, slug }) => {
           Delete Page
         </Button>
       </div> */}
-        </React.Fragment>
+        </div>
       );
     } else {
       return (
@@ -118,10 +118,12 @@ const Header = ({ singlePage, slug }) => {
         <React.Fragment>
           <h1 className="d-flex align-items-center mb-3">
             {/* <FaYoutube color="red" />{" "} */}
-            <span className="">{singlePage.title}</span>
+            <span className="" style={{ overflowWrap: "anywhere" }}>
+              {singlePage.title}
+            </span>
           </h1>
 
-          <p>{singlePage.description}</p>
+          <p style={{ overflowWrap: "anywhere" }}>{singlePage.description}</p>
         </React.Fragment>
       );
     }
@@ -169,6 +171,7 @@ const Header = ({ singlePage, slug }) => {
       className="px-5 py-5"
       style={{
         backgroundImage: "linear-gradient(to right,#fee5bc, #fdcb7b)",
+        // overflowWrap: "anywhere",
       }}
     >
       {isAuth() ? authorizedContent() : unauthorizedContent()}

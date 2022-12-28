@@ -219,6 +219,37 @@ exports.optionalSignin = expressJwt({
 //     next();
 //   }
 // };
+exports.canUpdateDeleteUser = (req, res, next) => {
+  try {
+    const { username } = req.params;
+    console.log(username);
+    User.findOne({ username }).exec((err, user) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      if (!user) {
+        return res.status(404).json({
+          error: "could not find a user with that username",
+        });
+      }
+      console.log(user._id);
+      const authorizedUser =
+        user && req.auth && user._id.toString() === req.auth._id.toString();
+      console.log("found uesr", user._id, "req auth Id", req.auth._id);
+      if (!authorizedUser) {
+        return res.status(400).json({
+          error: "You are not Authorized",
+        });
+      }
+      next();
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.canUpdateDeletePage = (req, res, next) => {
   try {
     const { slug } = req.params;

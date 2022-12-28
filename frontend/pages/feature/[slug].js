@@ -147,7 +147,7 @@ const SingleRequest = ({ data }) => {
     const handleAddComment = (e) => {
       e.preventDefault();
       if (!isAuth()) {
-        router.push("/signin");
+        return router.push("/signin");
       }
 
       if (!content || content.length < 1) {

@@ -5,6 +5,7 @@ const fs = require("fs");
 const _ = require("lodash");
 
 const AWS = require("aws-sdk");
+const Page = require("../models/Page");
 let s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -149,6 +150,7 @@ exports.updateUser = async (req, res) => {
           error: errorHandler(err),
         });
       }
+      // agar username change kiya hai to check username available?
       if (username.toLowerCase() !== userFromDb.username.toLowerCase()) {
         User.findOne({ username }).exec((err, user) => {
           if (err) {
@@ -156,6 +158,7 @@ exports.updateUser = async (req, res) => {
               error: errorHandler(err),
             });
           }
+          // agar req.body mei jo username bheja hai, username ka user already exist
           if (user) {
             return res.status(400).json({
               error:
@@ -164,6 +167,7 @@ exports.updateUser = async (req, res) => {
           }
         });
       }
+      // agar username change hi nhi kiya hai to direct-
       let newUser = { name, bio, username };
       userFromDb = _.merge(userFromDb, newUser);
       userFromDb.save((err, user) => {
@@ -182,5 +186,31 @@ exports.updateUser = async (req, res) => {
     return res.status(500).json({
       error: "Internal Server Error " + err,
     });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    // res.json("haha");
+    const { username } = req.params;
+    User.findOne({ username }).exec(async (err, user) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      if (!user) {
+        return res.status(400).json({
+          error: "User with that Username Doesnt Exists",
+        });
+      }
+      pagesFromUser = await Page.find({ postedBy: user._id });
+      // console.log(pagesFromUser);
+      pagesFromUser.forEach((page) => {
+        //kal
+      });
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
