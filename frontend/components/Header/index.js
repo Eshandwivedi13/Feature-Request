@@ -2,21 +2,40 @@ import React, { useState, useEffect } from "react";
 import { FaYoutube } from "react-icons/fa";
 import { getCookie, isAuth } from "../../api/auth";
 import { useRouter } from "next/router";
-import { Button } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+} from "reactstrap";
 import EditPage from "../Page/EditPage";
 import { deletePage } from "../../api/page";
-const Header = ({ singlePage, slug }) => {
+import { Input } from "reactstrap";
+import { AiOutlineSearch } from "react-icons/Ai";
+import { MdOutlineSearch } from "react-icons/md";
+
+const Header = ({ singlePage, slug, searched }) => {
+  const [values, setValues] = useState({
+    search: "",
+    parentSkip: 0,
+    parentLimit: 5,
+    parentHasMore: true,
+  });
+  const { search, parentSkip, parentLimit, parentHasMore } = values;
   const router = useRouter();
   const [hydrated, setHydrated] = useState(false);
   const token = getCookie("token");
   useEffect(() => {
     setHydrated(true);
     // getPage();
+    // setValues({ ...values, search: searched });
+    console.log(searched);
   }, []);
   if (!hydrated) {
     return null;
   }
-  console.log(singlePage);
   const deleteConfirm = (slug) => {
     let answer = window.confirm("are you sure you want to delete your blog?");
     if (answer) {
@@ -33,19 +52,39 @@ const Header = ({ singlePage, slug }) => {
       }
     });
   };
+  const handleSubmit = () => {
+    console.log("?");
+    router.push(`/search/${search}`);
+  };
   const authorizedContent = () => {
     if (router.asPath === `/pages/${slug}`) {
       return (
         <React.Fragment>
-          <h1 className="d-flex align-items-center mb-3">
+          <h1 className="d-flex align-items-center justify-content-between mb-3">
             {/* <FaYoutube color="red" />{" "} */}
             <span className="" style={{ overflowWrap: "anywhere" }}>
               {singlePage.title}
             </span>
+            <div className="d-flex align-items-center">
+              <Input
+                className="search"
+                placeholder="Search Something..."
+                value={search}
+                onChange={(e) => {
+                  setValues({ ...values, search: e.target.value });
+                }}
+              />
+              <AiOutlineSearch
+                onClick={() => {
+                  router.push(`/search/${search}`);
+                }}
+                size={25}
+              />
+            </div>
           </h1>
 
           <p style={{ overflowWrap: "anywhere" }}>{singlePage.description}</p>
-          {slug && singlePage.postedBy === isAuth()._id && (
+          {singlePage.postedBy === isAuth()._id && (
             <div className="d-flex align-items-center">
               <EditPage buttonLabel={`Edit Page`} slug={singlePage.slug} />
               <Button
@@ -58,6 +97,55 @@ const Header = ({ singlePage, slug }) => {
               </Button>
             </div>
           )}
+        </React.Fragment>
+      );
+    } else if (router.asPath === `/search/${searched}`) {
+      return (
+        <React.Fragment>
+          <h1 className="d-flex align-items-center justify-content-between mb-3">
+            {/* <FaYoutube color="red" />{" "} */}
+            <span className="">Feature Request App</span>
+            <form className="d-flex align-items-center" onSubmit={handleSubmit}>
+              <Input
+                className="search"
+                placeholder="Search Something..."
+                value={search}
+                onChange={(e) => {
+                  setValues({ ...values, search: e.target.value });
+                }}
+              />
+              {/* <InputGroup>
+                <Input
+                  className="search"
+                  placeholder="Search Something..."
+                  value={search}
+                  onChange={(e) => {
+                    setValues({ ...values, search: e.target.value });
+                  }}
+                />
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText className="search">
+                    <i className="mdi mdi-magnify"></i>
+                    <MdOutlineSearch size={24} color="#7d7d7d" />
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup> */}
+
+              <AiOutlineSearch
+                onClick={() => {
+                  router.push(`/search/${search}`);
+                }}
+                size={25}
+              />
+            </form>
+          </h1>
+
+          <p>
+            {/* isAUth ka about me */}
+            Let us know how we can improve our app. Vote on existing ideas or
+            suggest new ones. Create your Own pages, features, comments and lot
+            more!
+          </p>
         </React.Fragment>
       );
     } else if (router.asPath === `/feature/${slug}`) {
@@ -82,9 +170,25 @@ const Header = ({ singlePage, slug }) => {
     } else {
       return (
         <React.Fragment>
-          <h1 className="d-flex align-items-center mb-3">
+          <h1 className="d-flex align-items-center justify-content-between mb-3">
             {/* <FaYoutube color="red" />{" "} */}
             <span className="">Feature Request App</span>
+            <div className="d-flex align-items-center">
+              <Input
+                className="search"
+                placeholder="Search Something..."
+                value={search}
+                onChange={(e) => {
+                  setValues({ ...values, search: e.target.value });
+                }}
+              />
+              <AiOutlineSearch
+                onClick={() => {
+                  router.push(`/search/${search}`);
+                }}
+                size={25}
+              />
+            </div>
           </h1>
 
           <p>
@@ -102,12 +206,29 @@ const Header = ({ singlePage, slug }) => {
     if (
       router.asPath === `/` ||
       router.asPath === `/signin` ||
-      router.asPath === `/signup`
+      router.asPath === `/signup` ||
+      router.asPath === `/search/${searched}`
     ) {
       return (
         <React.Fragment>
-          <h1 className="d-flex align-items-center mb-3">
+          <h1 className="d-flex align-items-center mb-3 justify-content-between">
             <span className="">Feature Request</span>
+            <div className="d-flex align-items-center">
+              <Input
+                className="search"
+                placeholder="Search Something..."
+                value={search}
+                onChange={(e) => {
+                  setValues({ ...values, search: e.target.value });
+                }}
+              />
+              <AiOutlineSearch
+                onClick={() => {
+                  router.push(`/search/${search}`);
+                }}
+                size={25}
+              />
+            </div>
           </h1>
 
           <p>Your Suggestion Matters</p>

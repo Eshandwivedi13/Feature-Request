@@ -1,11 +1,17 @@
 const User = require("../models/user");
 const { errorHandler } = require("../helpers/index");
 const Feature = require("../models/feature");
+const FeatureVote = require("../models/FeatureVote");
+const Comment = require("../models/Comment");
+const CommentVote = require("../models/CommentVote");
+const CommentReply = require("../models/CommentReply");
+const CommentReplyVote = require("../models/CommentReplyVote");
+const Page = require("../models/Page");
+
 const fs = require("fs");
 const _ = require("lodash");
 
 const AWS = require("aws-sdk");
-const Page = require("../models/Page");
 let s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -190,8 +196,9 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+  // sarey pages aur sarey features to remove kar hi do
+  //sarey comments we will think
   try {
-    // res.json("haha");
     const { username } = req.params;
     User.findOne({ username }).exec(async (err, user) => {
       if (err) {
@@ -205,10 +212,32 @@ exports.deleteUser = async (req, res) => {
         });
       }
       pagesFromUser = await Page.find({ postedBy: user._id });
-      // console.log(pagesFromUser);
-      pagesFromUser.forEach((page) => {
-        //kal
+      pagesFromUser.forEach(async (page) => {
+        const featuresFromPage = await Feature.find({ page: page._id });
+        featuresFromPage.forEach(async (feature) => {
+          await FeatureVote.findOneAndDelete({ feature: feature._id });
+          const commentsFromFeature = await Comment.find({
+            feature: feature._id,
+          });
+          commentsFromFeature.forEach(async (comment) => {
+            await CommentVote.findOneAndDelete({ comment: comment._id });
+            const repliesFromComment = await CommentReply.find({
+              comment: comment._id,
+            });
+            repliesFromComment.forEach(async (reply) => {
+              await CommentReplyVote.findOneAndDelete({
+                commentReply: reply._id,
+              });
+              reply.remove();
+            });
+            comment.remove();
+          });
+          feature.remove();
+        });
+        page.remove();
       });
+      user.remove();
+      res.json({ message: "User has been Deleted with his all data" });
     });
   } catch (error) {
     console.log(error);

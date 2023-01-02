@@ -19,7 +19,7 @@ import {
 } from "../../api/comment";
 import { BsArrowBarRight, BsThreeDotsVertical } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
-import { AiOutlineComment } from "react-icons/ai";
+import { AiOutlineComment } from "react-icons/Ai";
 import LikeButton from "../Misc/LikeButton";
 import SingleCommentReply from "../Comments/SingleCommentReply";
 const SingleComment = ({

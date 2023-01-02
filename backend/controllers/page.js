@@ -249,3 +249,36 @@ exports.deletePage = async (req, res) => {
       .json({ message: "Your Page Has Been Delete Succuessfully" });
   } catch (error) {}
 };
+
+//Three ways for creating Search Functionality -
+//1) req.body.search then, .find({$text: {$search: req.body.search}})
+//2) req.params.search then, .find({$or:[{name:{$regex : req.params.search}}]})
+//3) req.query.search then, same as 2nd method (guruji method jaisa h)
+
+exports.searchPages = async (req, res) => {
+  try {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 5;
+    let skip = req.query.skip ? parseInt(req.query.skip) : 0;
+    // key lo ya search lo, frontend se search a rha hai
+    const { key } = req.params;
+    const pages = await Page.find({
+      $or: [
+        {
+          title: { $regex: key, $options: "i" },
+        },
+        {
+          description: { $regex: key },
+        },
+      ],
+    })
+      .skip(skip)
+      .limit(limit)
+      .select("_id title excerpt slug postedBy")
+      .sort({ createdAt: -1 });
+
+    console.log(pages);
+    res.json(pages);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -36,7 +36,7 @@ Router.onRouteChangeError = (url) => NProgress.done();
 // Router.events.on("routeChangeError", nProgress.done);
 // Router.events.on("routeChangeComplete", nProgress.done);
 
-const Header = ({ singlePage, slug, username }) => {
+const Header = ({ singlePage, slug, username, searched }) => {
   const router = useRouter();
   // console.log(router);
   const [hydrated, setHydrated] = useState(false);
@@ -75,7 +75,7 @@ const Header = ({ singlePage, slug, username }) => {
   // };
 
   const showCreateComponent = () => {
-    console.log("Test");
+    console.log("Test From nav");
 
     if (
       router.asPath === `/feature/${slug}` ||
@@ -85,7 +85,10 @@ const Header = ({ singlePage, slug, username }) => {
       return <Create singlePage={singlePage} buttonLabel="Suggest Feature" />;
     } else if (router.asPath === `/`) {
       return <CreatePage buttonLabel="Create Page" />;
-    } else if (router.asPath === `/profile/${username}`) {
+    } else if (
+      router.asPath === `/profile/${username}` ||
+      router.asPath === `/search/${searched}`
+    ) {
       return (
         <Button color="primary" size="sm">
           <Link href={`/`}>Home</Link>

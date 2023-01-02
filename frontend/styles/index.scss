@@ -185,16 +185,27 @@ textarea {
   border: 2px solid #f3f2f2;
   border-radius: 5px;
 }
+#fdcb7b
 
 // for alert
 .custom-alert {
-  background-color: #fff;
-  color: #ff5f66;
-  box-shadow: 0 8px 16px 0 rgb(255 95 102 / 15%);
-  border: none;
-  border-left: 4px solid #ff5f66;
-  padding: 1.25rem;
-  border-radius: 4px;
+  background-color: #fff !important;
+  color: #ff5f66 !important;
+  box-shadow: 0 8px 16px 0 rgb(255 95 102 / 15%) !important;
+  border: none !important;
+  border-left: 4px solid #ff5f66 !important;
+  padding: 1.25rem !important;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+}
+.custom-alert-2 {
+  background-color: #fff !important;
+  color: #ff5f66 !important;
+  box-shadow: 0 8px 16px 0 rgb(255 95 102 / 15%) !important;
+  border: none !important;
+  border-left: 4px solid #ff5f66 !important;
+  padding: 1rem !important;
+  border-radius: 4px !important;
   font-size: 14px !important;
 }
 
@@ -205,4 +216,17 @@ textarea {
 
 .wrap-page {
   overflow-wrap: anywhere;
+}
+
+.search {
+  border: none;
+  background-color: #f0f2f5;
+  // background-color: #fdcb7b;
+  border-radius: 4px;
+  // padding: 20px;
+  &:focus {
+    box-shadow: none;
+    border: none;
+    background-color: #f0f2f5;
+  }
 }

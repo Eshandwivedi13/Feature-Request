@@ -235,12 +235,12 @@ const SinglePage = ({ pageFromSSR }) => {
             {renderFeatures()}
           </InfiniteScroll>
         ) : (
-          <Container className="jumbotron d-flex justify-content-center">
+          <div className="jumbotron d-flex justify-content-center">
             <p className="lead">
               Currently, No feature is there!
               <br /> <span className="ml-3">Suggest Some features!</span>
             </p>
-          </Container>
+          </div>
         )}
       </Layout>
     </React.Fragment>

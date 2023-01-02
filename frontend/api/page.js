@@ -107,20 +107,15 @@ export const updatePage = (slug, token, data) => {
     });
 };
 
-// export const voteFeature = (featureId, token) => {
-//   console.log("like");
-//   return fetch(`${API}/feature/vote/${featureId}`, {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//   })
-//     .then((response) => {
-//       return response.json();
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
+export const searchData = (search, skip, limit) => {
+  console.log(skip, limit);
+  return fetch(`${API}/pages/search/${search}/?skip=${skip}&limit=${limit}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
