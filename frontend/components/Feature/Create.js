@@ -11,6 +11,7 @@ import {
   Label,
   Input,
   Alert,
+  FormFeedback,
 } from "reactstrap";
 import { makeFeature } from "../../api/feature";
 import { getCookie, isAuth } from "../../api/auth";
@@ -40,8 +41,12 @@ const Create = ({ buttonLabel, className, singlePage }) => {
     error: false,
     loading: false,
     success: false,
+    localErrors: {
+      title: false,
+      description: false,
+    },
   });
-  const { title, description, error, loading, success } = values;
+  const { title, description, error, loading, success, localErrors } = values;
   const handleClick = (e) => {
     if (!isAuth()) {
       return router.push("/signin");
@@ -49,37 +54,40 @@ const Create = ({ buttonLabel, className, singlePage }) => {
     if (!title && !title.length) {
       return setValues({
         ...values,
-        error: "Title  is required",
+        localErrors: { ...localErrors, title: "Title is Required" },
       });
     }
     if (title.length > 100) {
       return setValues({
         ...values,
-        error: "Title is Too Big",
+        localErrors: { ...localErrors, title: "Title is Too Big" },
       });
     }
     if (title.length < 5) {
       return setValues({
         ...values,
-        error: "Title is Too Short",
+        localErrors: { ...localErrors, title: "Title is Too Short" },
       });
     }
     if (!description && !description.length) {
       return setValues({
         ...values,
-        error: "Description  is required",
+        localErrors: { ...localErrors, description: "Description is Required" },
       });
     }
     if (description.length < 25) {
       return setValues({
         ...values,
-        error: "Description is Too Short",
+        localErrors: {
+          ...localErrors,
+          description: "Description is Too Short",
+        },
       });
     }
     if (description.length > 750) {
       return setValues({
         ...values,
-        error: "Description is Too Large",
+        localErrors: { ...localErrors, description: "Description is Too Big" },
       });
     }
     setValues({ ...values, loading: true });
@@ -130,12 +138,21 @@ const Create = ({ buttonLabel, className, singlePage }) => {
             type="text"
             value={title}
             onChange={(e) => {
-              setValues({ ...values, title: e.target.value, error: "" });
+              setValues({
+                ...values,
+                title: e.target.value,
+                error: "",
+                localErrors: { ...localErrors, title: "" },
+              });
             }}
             name="title"
             id="exampleTitle"
             placeholder="Enter your title"
+            invalid={localErrors.title}
           />
+          {localErrors.title && (
+            <FormFeedback>{localErrors.title}</FormFeedback>
+          )}
         </FormGroup>
         <FormGroup>
           <Label for="exampleDescription" className="my-auto text-muted">
@@ -144,14 +161,23 @@ const Create = ({ buttonLabel, className, singlePage }) => {
           <Input
             type="textarea"
             onChange={(e) => {
-              setValues({ ...values, description: e.target.value, error: "" });
+              setValues({
+                ...values,
+                description: e.target.value,
+                error: "",
+                localErrors: { ...localErrors, description: "" },
+              });
             }}
             rows={7}
             value={description}
             name="description"
             id="exampleDescription"
             placeholder="Enter your description "
+            invalid={localErrors.description}
           />
+          {localErrors.description && (
+            <FormFeedback>{localErrors.description}</FormFeedback>
+          )}
         </FormGroup>
       </Form>
     );
